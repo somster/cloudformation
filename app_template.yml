@@ -119,6 +119,7 @@ Resources:
       ImageId: !Ref ImageId
       SecurityGroupIds:
         - !Ref InstanceSecurityGroup
+        - !Ref ApplicationSecurityGroup
       SubnetId:
         Fn::ImportValue: !Sub ${NetworkStack}-PublicSubnet1
   IPAddress:
