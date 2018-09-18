@@ -100,6 +100,17 @@ Resources:
           FromPort: '22'
           ToPort: '22'
           CidrIp: !Ref SSHLocation
+  ApplicationSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access
+      VpcId:
+        Fn::ImportValue: !Sub ${NetworkStack}-VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '8085'
+          ToPort: '8085'
+          CidrIp: 0.0.0.0/0
   EC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
