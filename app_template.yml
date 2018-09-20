@@ -122,6 +122,10 @@ Resources:
         - !Ref ApplicationSecurityGroup
       SubnetId:
         Fn::ImportValue: !Sub ${NetworkStack}-PublicSubnet1
+      Tags:
+        -
+          Key: "Name"
+          Value: "conference-bamboo-master"
   IPAddress:
     Type: 'AWS::EC2::EIP'
   IPAssoc:
