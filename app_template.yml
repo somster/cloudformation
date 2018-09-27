@@ -169,7 +169,8 @@ Resources:
         - Id: !Ref EC2Instance
           Port: 8085
       TargetType: instance
-      VpcId:  Fn::ImportValue: !Sub ${NetworkStack}-VpcId
+      VpcId:  
+        Fn::ImportValue: !Sub ${NetworkStack}-VpcId
 
   ALB-Listener:
     Type: AWS::ElasticLoadBalancingV2::Listener
@@ -189,3 +190,6 @@ Outputs:
   InstanceIPAddress:
     Description: IP address of the newly created EC2 instance
     Value: !Ref IPAddress
+  LBDNSNAme:
+    Description: DNS Name of LB
+    Value: !GetAtt ALB.DNSName
