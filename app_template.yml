@@ -157,7 +157,8 @@ Resources:
         - !Ref LoadBalancerSecurityGroup
       Subnets:
         - Fn::ImportValue: !Sub ${NetworkStack}-PublicSubnet1
-        - Fn::ImportValue: !Sub ${NetworkStack}-PublicSubnet2
+#        - Fn::ImportValue: !Sub ${NetworkStack}-PublicSubnet2
+        - "subnet-0806a9d3c163621f6"
       Type: application
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
