@@ -148,9 +148,6 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       IpAddressType: ipv4
-      LoadBalancerAttributes:
-        - Key: load_balancing.cross_zone.enabled
-          Value: true
       Name: "conference-bamboo-lb"
       Scheme: internet-facing
       SecurityGroups:
