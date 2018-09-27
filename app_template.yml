@@ -125,7 +125,7 @@ Resources:
       Tags:
         -
           Key: "Name"
-          Value: "conference-bamboo-master"
+          Value: "conference-bamboo-with-lb-master"
   IPAddress:
     Type: 'AWS::EC2::EIP'
   IPAssoc:
