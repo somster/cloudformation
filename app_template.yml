@@ -111,6 +111,17 @@ Resources:
           FromPort: '8085'
           ToPort: '8085'
           CidrIp: 0.0.0.0/0
+  LoadBalancerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable HTTPS Access to LB
+      VpcId:
+        Fn::ImportValue: !Sub ${NetworkStack}-VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp: 0.0.0.0/0
   EC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
@@ -133,6 +144,44 @@ Resources:
     Properties:
       InstanceId: !Ref EC2Instance
       EIP: !Ref IPAddress
+  ALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      IpAddressType: ipv4
+      LoadBalancerAttributes:
+        - Key: load_balancing.cross_zone.enabled
+          Value: true
+      Name: "conference-bamboo-lb"
+      Scheme: internet-facing
+      SecurityGroups:
+        - !Ref LoadBalancerSecurityGroup
+      Subnets:
+        - Fn::ImportValue: !Sub ${NetworkStack}-PublicSubnet1
+        - Fn::ImportValue: !Sub ${NetworkStack}-PublicSubnet2
+      Type: application
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: "conference-bamboo-tg"
+      Port: 8085
+      Protocol: HTTP
+      Targets:
+        - Id: !Ref EC2Instance
+          Port: 8085
+      TargetType: instance
+      VpcId:  Fn::ImportValue: !Sub ${NetworkStack}-VpcId
+
+  ALB-Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties: 
+      Certificates:
+        - CertificateArn: "arn:aws:acm:ap-southeast-1:667871478305:certificate/d852785b-0b13-4d38-98c5-f11ac5a56806"
+      DefaultActions:
+        - TargetGroupArn: !Ref TargetGroup
+          Type: forward
+      LoadBalancerArn: !Ref ALB
+      Port: 443
+      Protocol: "HTTPS"
 Outputs:
   InstanceId:
     Description: InstanceId of the newly created EC2 instance
