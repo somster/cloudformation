@@ -172,7 +172,7 @@ Resources:
       VpcId:  
         Fn::ImportValue: !Sub ${NetworkStack}-VpcId
 
-  ALB-Listener:
+  ALBListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties: 
       Certificates:
@@ -183,6 +183,7 @@ Resources:
       LoadBalancerArn: !Ref ALB
       Port: 443
       Protocol: "HTTPS"
+
 Outputs:
   InstanceId:
     Description: InstanceId of the newly created EC2 instance
