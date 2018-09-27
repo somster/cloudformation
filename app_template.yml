@@ -111,6 +111,10 @@ Resources:
           FromPort: '8085'
           ToPort: '8085'
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '54663'
+          ToPort: '54663'
+          CidrIp: 0.0.0.0/0
   LoadBalancerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
@@ -167,6 +171,9 @@ Resources:
         - Id: !Ref EC2Instance
           Port: 8085
       TargetType: instance
+      Matcher:
+        HttpCode: '302,200'
+
       VpcId:  
         Fn::ImportValue: !Sub ${NetworkStack}-VpcId
 
