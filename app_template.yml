@@ -140,7 +140,7 @@ Resources:
       Tags:
         -
           Key: "Name"
-          Value: "conference-bamboo-with-loadbalancer-master"
+          Value: "conference-bamboo-with-loadbalancer-master-backup"
   IPAddress:
     Type: 'AWS::EC2::EIP'
   IPAssoc:
@@ -152,7 +152,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       IpAddressType: ipv4
-      Name: "conference-bamboo-lb"
+      Name: "conference-bamboo-lb-backup"
       Scheme: internet-facing
       SecurityGroups:
         - !Ref LoadBalancerSecurityGroup
@@ -163,7 +163,7 @@ Resources:
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: "conference-bamboo-tg"
+      Name: "conference-bamboo-tg-backup"
       Port: 8085
       Protocol: HTTP
       Targets:
