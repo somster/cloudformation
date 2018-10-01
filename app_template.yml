@@ -158,8 +158,7 @@ Resources:
         - !Ref LoadBalancerSecurityGroup
       Subnets:
         - Fn::ImportValue: !Sub ${NetworkStack}-PublicSubnet1
-#        - Fn::ImportValue: !Sub ${NetworkStack}-PublicSubnet2
-        - "subnet-0806a9d3c163621f6"
+        - Fn::ImportValue: !Sub ${NetworkStack}-PublicSubnet2
       Type: application
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -174,12 +173,12 @@ Resources:
       Matcher:
         HttpCode: '302,200'
 
-      VpcId:  
+      VpcId:
         Fn::ImportValue: !Sub ${NetworkStack}-VpcId
 
   ALBListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties: 
+    Properties:
       Certificates:
         - CertificateArn: "arn:aws:acm:ap-southeast-1:667871478305:certificate/d852785b-0b13-4d38-98c5-f11ac5a56806"
       DefaultActions:
